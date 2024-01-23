@@ -16,4 +16,6 @@
 - Tested and validated predictions using historical data
 - Evaluated and optimized models using metrics such as r-squared and mean absolute error as indicators of accuracy
 
+### Simple Moving Average Trading Algorithm
+
 
