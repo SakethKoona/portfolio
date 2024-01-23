@@ -9,4 +9,11 @@
 - Effectively communicated investment potential in accordance with company values with the use of presentations and video deliverable to the company
 - Evaluated potential investments using metrics such as CAGR, market value, etc. to recommend an investment decision to the company.
 
+## Projects
+### Machine Learning Analysis and Prediction of Economic Factors
+- Employed data cleaning, data visualization, and machine learning techniques to analyze economic factors within a country
+- Used various features to predict a country's future GDP
+- Tested and validated predictions using historical data
+- Evaluated and optimized models using metrics such as r-squared and mean absolute error as indicators of accuracy
+
 
