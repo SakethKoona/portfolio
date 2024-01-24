@@ -17,7 +17,6 @@
 - Evaluated and optimized models using metrics such as r-squared and mean absolute error as indicators of accuracy
 
 ### Simple Moving Average Trading Algorithm
-- Used webscraping techniques with the BeautifulSoup API to generate historical stock data.
 - Implemented a Simple Moving Average Trading algorithm on AAPL stock.
 - Generated buy/sell signals based on quantitative analysis of 50 day and 200 day moving averages.
 - Backtested model against historical data and compared cumulative returns with various other strategies.
