@@ -20,3 +20,10 @@
 - Implemented a Simple Moving Average Trading algorithm on AAPL stock.
 - Generated buy/sell signals based on quantitative analysis of 50 day and 200 day moving averages.
 - Backtested model against historical data and compared cumulative returns with various other strategies.
+
+### Fake News Classification with LSTMs
+- Built a Neural Network architecture to classify fake news, using Long Short-Term Memory models.
+- Mitigated the effect of overfitting using regularization and layer Dropout
+- Preprocessed text using NLP techniques such as lemmatization, vectorization, and the removal of identified stopwords.
+- Trained the network on real world articles, and achieved an accuracy of 92% on test data.
+- Employed data visualization techniques to highlight key features of the text such as common bi-grams and average length.
