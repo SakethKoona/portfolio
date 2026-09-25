@@ -9,22 +9,22 @@ export const site = {
   cv: "/cv.pdf" as string | null,
   city: "Atlanta" as string | null,
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-  role: "Backend engineer, Atlanta",
-  headline: { lead: "Distributed backends and", em: "RL environments" },
+  role: "Software engineer, Atlanta",
+  headline: { lead: "Distributed systems and", em: "machine learning" },
   intro:
-    "Kafka pipelines, worker pools and a matching engine in Rust, Elixir and C++. Benchmarks and RL environments for training and evaluating AI agents. Software engineer intern at Transpira Labs.",
+    "Backend infrastructure in Rust, Elixir and C++, RL environments and evals for AI agents, and applied machine learning research. Software engineer intern at Transpira Labs.",
   introShort:
-    "Kafka pipelines, worker pools and a matching engine in Rust, Elixir and C++. Benchmarks and RL environments for training and evaluating AI agents.",
+    "Backend infrastructure in Rust, Elixir and C++, RL environments and evals for AI agents, and applied machine learning research.",
   about:
-    "Software engineer in Atlanta. Most of my work is distributed backends and the environments used to train and evaluate AI agents.",
-  blurb: "Backend engineer in Atlanta. Distributed systems and RL environments.",
+    "Software engineer in Atlanta, working across distributed systems and machine learning: backend infrastructure, RL environments and evals, and research in neural dynamics and portfolio optimization.",
+  blurb: "Software and machine learning engineer in Atlanta.",
   contactTitle: "Get in touch",
   description:
-    "Saketh Koona builds distributed backends in Rust, Elixir and C++, and evaluation and RL environments for AI agents.",
+    "Saketh Koona, software and machine learning engineer in Atlanta: distributed backends in Rust, Elixir and C++, RL environments and evals for AI agents, and applied ML research.",
   recognition: "First place, HUD x YC RSI RL Hackathon",
   // The About page, in order.
   bio: [
-    "I'm Saketh, a software engineer in Atlanta. I build distributed backends and the environments used to train and evaluate AI agents.",
+    "I'm Saketh, a software engineer in Atlanta. I work across distributed systems and machine learning: backend infrastructure, RL environments and evals for AI agents, and applied ML research.",
     "I studied Industrial Engineering at Georgia Tech. Alongside the degree I led the team building financial data systems for the Joint Finance Data Committee, modeled neural dynamics in the SIPLab, worked on retinal-scan segmentation in Emory's Madabhushi Lab, and built an RL environment for portfolio optimization in the AI-Based Innovation and Discovery Lab.",
     "Since July 2026 I have been a software engineer intern at Transpira Labs, working on a GTM platform, an AI quoting engine, freight ingestion pipelines and RLVR environments with deterministic verifiers. I also contribute tests to NVIDIA NeMo-RL.",
     "On my own time I build systems projects: an event-driven image pipeline in Rust, a matching engine in C++ and a benchmark platform in Elixir. Build, a Scratch-style editor for RL environments, won first place at the HUD x YC RSI RL Hackathon.",
