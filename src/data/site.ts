@@ -21,7 +21,6 @@ export const site = {
   contactLine: { lead: "Open to backend and", em: "agent evaluation", tail: "roles" },
   description:
     "Saketh Koona builds distributed backends in Rust, Elixir and C++, and evaluation and RL environments for AI agents.",
-  heroImage: "/meadow-hero.png",
   recognition: "First place, HUD x YC RSI RL Hackathon",
   // The About page, in order.
   bio: [

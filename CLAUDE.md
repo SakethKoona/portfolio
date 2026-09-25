@@ -3,7 +3,7 @@
 # Portfolio
 
 Saketh Koona's personal site. Design source: the "Night meadow" boards on the "Saketh Koona · Portfolio directions"
-design canvas (desktop 1440, mobile 390). Match them closely.
+design canvas (desktop 1440, mobile 390). Match them closely. The hero is a drawn night meadow (`src/components/Fireflies.tsx`), not a photo.
 
 - Palette: ground `#0A100D`, panels `#101913`, text `#E9F0E4` / `#A9B5A6` / `#8E9A8B`, hairlines
   `rgba(233,240,228,0.09)`, sage accent `#B7D9A2`, gold `#E6C27A`, blue `#9FC4D9`, rose `#D9A9A2`.

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
@@ -24,9 +23,6 @@ export default function Home() {
       <main>
         {/* HERO */}
         <section className="hero" id="top">
-          <Image src={site.heroImage} alt="" fill priority sizes="100vw" className="hero-img" />
-          <div className="hero-fade-x" />
-          <div className="hero-fade-y" />
           <Fireflies />
           <Nav />
           <div className="wrap hero-inner">

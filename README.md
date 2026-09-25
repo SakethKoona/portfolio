@@ -20,7 +20,8 @@ npm run lint
 | Projects, one file each | `src/content/projects/*.ts`, registered in `index.ts` |
 | Project diagrams | `src/components/vignettes/index.tsx` (live run: `LiveRun.tsx`) |
 | Pages | `src/app/page.tsx`, `src/app/work`, `src/app/experience`, `src/app/about`, `src/app/work/elixirbenchmarker` |
-| Hero photo, résumé, full CV | `public/meadow-hero.png`, `public/resume.pdf`, `public/cv.pdf` |
+| Hero meadow (drawn) | `src/components/Fireflies.tsx` |
+| Résumé, full CV | `public/resume.pdf`, `public/cv.pdf` |
 
 Pages: `/` (hero, in brief, selected work, current roles, contact), `/work` (every project, grouped by area),
 `/experience` (software engineering and research), `/about` (bio, facts, skills), `/work/elixirbenchmarker`
