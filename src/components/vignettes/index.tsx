@@ -366,30 +366,30 @@ function Market() {
   );
 }
 
-function Itch() {
+function Builder() {
   return (
     <>
       <div className="vig vig-side desk">
         <div className="row between">
           <div className="vig-title">blocks</div>
-          <div className="pill-ok">spec complete · 4/4</div>
+          <div className="pill-ok">check ✓</div>
         </div>
         <div className="blk" style={{ background: "#2F5FA8" }}>
           Environment · inventory-agent
         </div>
         <div className="blk" style={{ background: "#26252B", marginLeft: 14 }}>
-          Database · postgres
-        </div>
-        <div className="blk" style={{ background: "#26252B", marginLeft: 14 }}>
           Tool · lookup_sku(sku)
         </div>
         <div className="blk-set">
-          <div>Task Set · restock</div>
-          <div className="blk-task">Task · flag items under par</div>
-          <div className="blk-task">Task · draft the PO</div>
+          <div>Task · flag items under par</div>
+          <div className="blk-task">Scoring ▸ Good answer</div>
+          <div className="blk-task">Scoring ▸ Bad answer</div>
+        </div>
+        <div className="blk" style={{ background: "#26252B" }}>
+          Train · algorithm: auto
         </div>
         <div className="vig-foot" style={{ fontSize: 10.5 }}>
-          → compiles to env_spec.json
+          → IR → tools.py + env.py → deploy to HUD
         </div>
       </div>
       <div className="strip mob">
@@ -400,8 +400,9 @@ function Itch() {
           Tool · lookup_sku(sku)
         </div>
         <div className="strip-blk" style={{ background: "var(--accent)" }}>
-          Task Set · restock → env_spec.json
+          Task ▸ Scoring ▸ Good answer
         </div>
+        <div style={{ fontSize: 10.5, color: "#6F6D74" }}>→ IR → env.py → deploy to HUD</div>
       </div>
     </>
   );
@@ -589,7 +590,7 @@ const vignettes = {
   bench: Bench,
   dataset: Dataset,
   market: Market,
-  itch: Itch,
+  builder: Builder,
   accounting: Accounting,
   ghidra: Ghidra,
   catan: Catan,

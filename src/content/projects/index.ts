@@ -4,7 +4,7 @@ import { vignetteKeys } from "@/components/vignettes";
 import elixirBenchmarker from "./elixir-benchmarker";
 import datasetProcessor from "./distributed-dataset-processor";
 import marketSimulator from "./market-simulator";
-import itch from "./itch";
+import environmentBuilder from "./environment-builder";
 import accountingBench from "./accounting-bench";
 import ghidraEnv from "./ghidra-env";
 import catanRl from "./catan-rl";
@@ -17,7 +17,7 @@ const all: Project[] = [
   elixirBenchmarker,
   datasetProcessor,
   marketSimulator,
-  itch,
+  environmentBuilder,
   accountingBench,
   ghidraEnv,
   catanRl,
