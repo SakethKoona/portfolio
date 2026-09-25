@@ -310,8 +310,8 @@ function SkipList() {
         <text x="200" y="66">search(100.06): 4 hops, not 10</text>
       </g>
       <g fontFamily="JetBrains Mono, monospace" fontSize="9.5" fill="#6F6D74">
-        <text x="40" y="212">max height 24 · promote on coin flip · raw pointers, unsafe {"{}"}</text>
-        <text x="40" y="228">search ✓ · insert / delete in progress</text>
+        <text x="40" y="212">max height 16 · promote with probability p · arena-pooled nodes</text>
+        <text x="40" y="228">+ hash map: an existing level is found in O(1)</text>
       </g>
     </svg>
   );
@@ -335,7 +335,7 @@ function Market() {
             <Ladder rows={bids} side="bid" />
           </div>
           <div className="vig-foot" style={{ marginTop: 4 }}>
-            each level: VecDeque&lt;LimitOrder&gt; · FIFO · price-time priority
+            each level: std::list&lt;Order&gt; · FIFO · price-time priority
           </div>
         </div>
         <div className="col" style={{ gap: 8 }}>
@@ -359,7 +359,7 @@ function Market() {
         </div>
         <Ladder rows={bids.slice(0, 3)} side="bid" />
         <div className="annot" style={{ marginTop: 8, fontSize: 13 }}>
-          each level: VecDeque, FIFO — the skip list&apos;s express lanes find 100.06 in 4 hops
+          each level: std::list, FIFO — the skip list&apos;s express lanes find 100.06 in 4 hops
         </div>
       </div>
     </>
