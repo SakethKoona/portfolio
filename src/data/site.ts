@@ -18,7 +18,7 @@ export const site = {
   about:
     "Software engineer in Atlanta. Most of my work is distributed backends and the environments used to train and evaluate AI agents.",
   blurb: "Backend engineer in Atlanta. Distributed systems and RL environments.",
-  contactLine: { lead: "Open to backend and", em: "agent evaluation", tail: "roles" },
+  contactTitle: "Get in touch",
   description:
     "Saketh Koona builds distributed backends in Rust, Elixir and C++, and evaluation and RL environments for AI agents.",
   recognition: "First place, HUD x YC RSI RL Hackathon",

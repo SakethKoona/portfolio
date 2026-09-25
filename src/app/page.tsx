@@ -128,9 +128,7 @@ export default function Home() {
         <section id="contact" className="cta">
           <div className="wrap cta-inner">
             <span className="small">Contact</span>
-            <h2 className="h2 cta-title">
-              {site.contactLine.lead} <span className="em accent">{site.contactLine.em}</span> {site.contactLine.tail}
-            </h2>
+            <h2 className="h2 cta-title">{site.contactTitle}</h2>
             <a href={`mailto:${site.email}`} className="pill">
               {site.email}
               <span className="arr">
