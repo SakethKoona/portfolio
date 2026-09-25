@@ -11,9 +11,9 @@ const pages = [
 
 export function Footer() {
   const year = new Date().getFullYear();
-  const featured = projectsIn("featured");
-  const more = projectsIn("more").filter((p) => p.links.repo || p.links.live);
-  const listed = [...featured, ...more].slice(0, 4);
+  const listed = [...projectsIn("featured"), ...projectsIn("backend"), ...projectsIn("rl")]
+    .filter((p) => p.links.repo || p.links.live)
+    .slice(0, 4);
   return (
     <footer className="foot">
       <div className="wrap foot-grid">

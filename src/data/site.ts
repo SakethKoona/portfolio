@@ -22,34 +22,29 @@ export const site = {
   description:
     "Saketh Koona builds distributed backends in Rust, Elixir and C++, and evaluation and RL environments for AI agents.",
   heroImage: "/meadow-hero.png",
+  recognition: "First place, HUD x YC RSI RL Hackathon",
 };
 
 export type AreaIcon = "graph" | "ladder" | "blocks" | "check";
 
-// The four areas under the hero.
-export const areas: { icon: AreaIcon; title: string; body: string; bodyShort: string }[] = [
+// The work groups. `section` matches the project content files.
+export const groups: { section: "backend" | "rl" | "earlier"; icon: AreaIcon; title: string; body: string }[] = [
   {
+    section: "backend",
     icon: "graph",
-    title: "Distributed backends",
-    body: "Kafka worker pools, job queues and process supervision in Rust and Elixir.",
-    bodyShort: "Kafka worker pools and job queues in Rust and Elixir.",
+    title: "Backend systems",
+    body: "Job queues, worker pools and a matching engine in Elixir, Rust and C++.",
   },
   {
-    icon: "ladder",
-    title: "Matching engines",
-    body: "A price-time priority order book in C++ with binary order entry and multicast market data.",
-    bodyShort: "A price-time priority order book in C++.",
-  },
-  {
+    section: "rl",
     icon: "blocks",
-    title: "RL environments",
-    body: "Block-based environment building on HUD, and GRPO training against game engines.",
-    bodyShort: "Block-based building on HUD, GRPO against game engines.",
+    title: "RL environments and evals",
+    body: "Deterministic graders and RLVR environments for training and evaluating agents.",
   },
   {
-    icon: "check",
-    title: "Evals and verifiers",
-    body: "Deterministic graders and RLVR environments for reasoning benchmarks like AccountingBench.",
-    bodyShort: "Deterministic graders and RLVR environments.",
+    section: "earlier",
+    icon: "ladder",
+    title: "Trading and ML",
+    body: "Earlier work in quantitative finance and applied ML, without diagrams.",
   },
-];
+]

@@ -3,8 +3,8 @@ import type { Project } from "./types";
 const project: Project = {
   slug: "elixirbenchmarker",
   title: "ElixirBenchmarker",
-  section: "featured",
-  order: 2,
+  section: "backend",
+  order: 1,
   headline: { lead: "ElixirBenchmarker, a benchmark platform", em: "for agents" },
   body: "Runs a dataset of agent tasks against a harness concurrently, scores each result and streams progress over SSE. Postgres and Oban sit between the web tier and the workers.",
   summary:

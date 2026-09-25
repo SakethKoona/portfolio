@@ -4,8 +4,8 @@ import type { Project } from "./types";
 const project: Project = {
   slug: "market-simulator",
   title: "C++ Market Exchange Simulator",
-  section: "more",
-  order: 1,
+  section: "backend",
+  order: 3,
   status: "wip",
   body: "A price-time priority matching engine with multi-symbol order books. Each price level holds a FIFO queue of orders and the levels live in a hand-written skip list backed by an arena pool. Binary order entry over TCP, market data out over UDP multicast.",
   summary:

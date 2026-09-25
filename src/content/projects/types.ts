@@ -1,12 +1,13 @@
 import type { VignetteKey } from "@/components/vignettes";
 
 /**
- * featured: the carousel at the top of Work, with a diagram.
- * more:     rows with a diagram.
- * earlier:  text-only rows (trading, ML and hackathon projects).
+ * featured: the one project shown full width at the top of Work, with a diagram.
+ * backend:  "Backend systems" rows, each with a diagram.
+ * rl:       "RL environments and evals" rows, each with a diagram.
+ * earlier:  "Trading and ML" text rows.
  * also:     one line each.
  */
-export type Section = "featured" | "more" | "earlier" | "also";
+export type Section = "featured" | "backend" | "rl" | "earlier" | "also";
 
 export type Project = {
   slug: string;

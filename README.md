@@ -14,7 +14,7 @@ npm run lint
 
 | What | Where |
 | --- | --- |
-| Name, links, hero copy, the four areas | `src/data/site.ts` |
+| Name, links, hero copy, the work groups | `src/data/site.ts` |
 | Experience (software engineering and research groups), education | `src/data/experience.ts` |
 | Skill groups | `src/data/skills.ts` |
 | Projects, one file each | `src/content/projects/*.ts`, registered in `index.ts` |
@@ -22,8 +22,9 @@ npm run lint
 | ElixirBenchmarker case study | `src/app/work/elixirbenchmarker/page.tsx` |
 | Hero photo, résumé, full CV | `public/meadow-hero.png`, `public/resume.pdf`, `public/cv.pdf` |
 
-Project sections: `featured` (the carousel, needs `headline` and a `vignette`), `more` (rows with a diagram),
-`earlier` (text rows), `also` (one line). `next build` fails on bad content: duplicate slugs or orders, missing
+Page order: hero, in brief, work (one featured project, then Backend systems, RL environments and evals,
+Trading and ML), experience, skills, contact. Project sections: `featured` (needs `headline` and a `vignette`),
+`backend` and `rl` (rows with a diagram), `earlier` (text rows), `also` (one line). `next build` fails on bad content: duplicate slugs or orders, missing
 fields, unknown vignettes, non-https links, repo links that point at the GitHub profile, or private projects that
 carry a link.
 

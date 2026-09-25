@@ -54,7 +54,8 @@ function validate(projects: Project[]): Project[] {
       if (p.tags.length === 0) errors.push(`${at}: missing tags`);
     }
     if (p.section === "featured" && !p.headline) errors.push(`${at}: featured projects need a headline`);
-    if ((p.section === "featured" || p.section === "more") && !p.vignette) errors.push(`${at}: missing vignette`);
+    if ((p.section === "featured" || p.section === "backend" || p.section === "rl") && !p.vignette)
+      errors.push(`${at}: missing vignette`);
     if (p.vignette && !vignetteKeys.includes(p.vignette)) errors.push(`${at}: unknown vignette "${p.vignette}"`);
     if (p.status === "private" && (p.links.repo || p.links.live))
       errors.push(`${at}: private projects must not link a repo or live URL`);

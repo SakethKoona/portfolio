@@ -9,6 +9,7 @@ const project: Project = {
   body: "Scratch-style editor that compiles blocks into RL environments on HUD. First place, HUD x YC RSI RL Hackathon.",
   summary:
     "Environment, Tool, Task and Train blocks that compile into runnable RL environments on HUD. First place at the HUD x YC RSI RL Hackathon.",
+  meta: "First place, HUD x YC RSI RL Hackathon",
   tags: ["Python", "HUD", "React", "FastAPI"],
   links: {
     live: "https://build.transpiralabs.com",
