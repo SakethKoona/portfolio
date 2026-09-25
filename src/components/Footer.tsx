@@ -3,9 +3,9 @@ import { projectsIn } from "@/content/projects";
 import { site } from "@/data/site";
 
 const pages = [
-  { label: "Work", href: "/#work" },
-  { label: "Experience", href: "/#experience" },
-  { label: "About", href: "/#about" },
+  { label: "Work", href: "/work" },
+  { label: "Experience", href: "/experience" },
+  { label: "About", href: "/about" },
   { label: "Contact", href: "/#contact" },
 ];
 
@@ -70,7 +70,7 @@ export function CaseFooter() {
   return (
     <footer className="foot">
       <div className="wrap foot-case">
-        <Link href="/#work" className="arrow-link">
+        <Link href="/work" className="arrow-link">
           Back to all work
         </Link>
         <span className="small">

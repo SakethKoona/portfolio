@@ -23,6 +23,13 @@ export const site = {
     "Saketh Koona builds distributed backends in Rust, Elixir and C++, and evaluation and RL environments for AI agents.",
   heroImage: "/meadow-hero.png",
   recognition: "First place, HUD x YC RSI RL Hackathon",
+  // The About page, in order.
+  bio: [
+    "I'm Saketh, a software engineer in Atlanta. I build distributed backends and the environments used to train and evaluate AI agents.",
+    "I studied Industrial Engineering at Georgia Tech. Alongside the degree I led the team building financial data systems for the Joint Finance Data Committee, modeled neural dynamics in the SIPLab, worked on retinal-scan segmentation in Emory's Madabhushi Lab, and built an RL environment for portfolio optimization in the AI-Based Innovation and Discovery Lab.",
+    "Since July 2026 I have been a software engineer intern at Transpira Labs, working on a GTM platform, an AI quoting engine, freight ingestion pipelines and RLVR environments with deterministic verifiers. I also contribute tests to NVIDIA NeMo-RL.",
+    "On my own time I build systems projects: an event-driven image pipeline in Rust, a matching engine in C++ and a benchmark platform in Elixir. Build, a Scratch-style editor for RL environments, won first place at the HUD x YC RSI RL Hackathon.",
+  ],
 };
 
 export type AreaIcon = "graph" | "ladder" | "blocks" | "check";

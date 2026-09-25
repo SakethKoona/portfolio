@@ -3,130 +3,21 @@ import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { Fireflies } from "@/components/Fireflies";
-import { RichText } from "@/components/RichText";
-import { Vignette } from "@/components/vignettes";
-import { AreaGlyph, ArrowRight, ArrowUpRight } from "@/components/icons";
-import { projectsIn, type Project } from "@/content/projects";
-import { education, experience, formatRange, type Experience } from "@/data/experience";
-import { skills } from "@/data/skills";
-import { groups, site } from "@/data/site";
+import { ExperienceGroup } from "@/components/Experience";
+import { FeaturedRow, WorkRow } from "@/components/Work";
+import { ArrowRight, ArrowUpRight } from "@/components/icons";
+import { getProject, projectsIn } from "@/content/projects";
+import { education, experience } from "@/data/experience";
+import { site } from "@/data/site";
 
-function ProjectLinks({ p }: { p: Project }) {
-  const { links } = p;
-  if (p.status === "private") return <span className="small">Write-up available on request</span>;
-  return (
-    <div className="row-links">
-      {links.caseStudy && (
-        <Link href={links.caseStudy} className="arrow-link">
-          Case study <ArrowRight />
-        </Link>
-      )}
-      {links.live && (
-        <a href={links.live} className="arrow-link">
-          {p.slug === "build" ? "Open the live app" : "Live"} <ArrowRight />
-        </a>
-      )}
-      {links.repo && (
-        <a href={links.repo} className="arrow-link">
-          Repository <ArrowRight />
-        </a>
-      )}
-    </div>
-  );
-}
-
-// A project row: text on the left, its diagram on the right. Phones stack: title, text, diagram, tags, links.
-function WorkRow({ p }: { p: Project }) {
-  return (
-    <article className="work">
-      <div className="work-text">
-        <div className="work-head">
-          <h3 className="h3">{p.title}</h3>
-          {p.status === "private" && <span className="st">private</span>}
-        </div>
-        <p className="p work-body desk">
-          <RichText text={p.body} />
-        </p>
-        <p className="p work-body mob">
-          <RichText text={p.summary ?? p.body} />
-        </p>
-        <span className="tags work-tags">
-          {p.tags.join(", ")}
-          {p.status === "private" && ". Write-up on request."}
-        </span>
-        <div className="work-links">
-          <ProjectLinks p={p} />
-        </div>
-      </div>
-      {p.vignette && (
-        <div className="work-art">
-          <Vignette name={p.vignette} />
-        </div>
-      )}
-    </article>
-  );
-}
-
-// The one project shown full width at the top of Work.
-function FeaturedRow({ p }: { p: Project }) {
-  return (
-    <article className="featured">
-      <div className="featured-text">
-        {p.meta && <span className="st st-ok self-start">{p.meta}</span>}
-        <h3 className="h2 featured-title">
-          {p.headline?.lead} <span className="em accent">{p.headline?.em}</span>
-        </h3>
-        <p className="p featured-body desk">{p.body}</p>
-        <p className="p featured-body mob">{p.summary ?? p.body}</p>
-        <span className="tags">{p.tags.join(", ")}</span>
-        <div className="featured-links">
-          <ProjectLinks p={p} />
-        </div>
-      </div>
-      {p.vignette && (
-        <div className="featured-art">
-          <Vignette name={p.vignette} />
-        </div>
-      )}
-    </article>
-  );
-}
-
-function EarlierRow({ p }: { p: Project }) {
-  return (
-    <div className="earlier-row">
-      <span className="earlier-name">
-        {p.title}
-        {p.meta && <span className="small"> {p.meta}</span>}
-      </span>
-      <p className="p earlier-body desk">{p.body}</p>
-      <p className="p earlier-body mob">{p.summary ?? p.body}</p>
-      <span className="tags earlier-tags">{p.tags.join(", ")}</span>
-    </div>
-  );
-}
-
-function ExperienceRow({ e }: { e: Experience }) {
-  return (
-    <div className="exp-row">
-      <span className="small exp-when">{formatRange(e.start, e.end)}</span>
-      <div className="exp-what">
-        <div className="exp-org">
-          {e.org} <span className="small exp-role">{e.role}</span>
-        </div>
-        <p className="p exp-summary desk">{e.summary}</p>
-        <p className="p exp-summary mob">{e.summaryShort ?? e.summary}</p>
-      </div>
-    </div>
-  );
-}
+// Which projects stand out on the home page, after the featured one.
+const standout = ["elixirbenchmarker", "distributed-dataset-processor"];
 
 export default function Home() {
   const featured = projectsIn("featured");
-  const also = projectsIn("also");
-  const swe = experience.filter((e) => e.group === "swe");
-  const research = experience.filter((e) => e.group === "research");
-  const now = swe[0];
+  const picks = standout.map(getProject);
+  const current = experience.filter((e) => e.end === null);
+  const now = current.find((e) => e.group === "swe") ?? current[0];
 
   return (
     <>
@@ -167,10 +58,13 @@ export default function Home() {
           </div>
         </section>
 
-        {/* IN BRIEF: who, before any project */}
+        {/* IN BRIEF */}
         <section id="about" className="wrap brief">
           <div className="brief-text">
             <p className="p brief-lede">{site.about}</p>
+            <Link href="/about" className="arrow-link self-start">
+              More about me <ArrowRight />
+            </Link>
           </div>
           <dl className="brief-facts">
             <div className="fact">
@@ -199,111 +93,38 @@ export default function Home() {
           </dl>
         </section>
 
-        {/* WORK */}
+        {/* SELECTED WORK */}
         <section id="work" className="wrap workspace">
           <div className="section-head">
-            <h2 className="h2">Work</h2>
-            <span className="small desk">Private projects have a write-up on request</span>
+            <h2 className="h2">Selected work</h2>
+            <Link href="/work" className="arrow-link desk">
+              All work <ArrowRight />
+            </Link>
           </div>
-
           {featured.map((p) => (
             <FeaturedRow key={p.slug} p={p} />
           ))}
-
-          {groups.map((g) => {
-            const items = projectsIn(g.section);
-            if (items.length === 0) return null;
-            return (
-              <div key={g.section} className="group">
-                <div className="group-head">
-                  <span className="icon">
-                    <AreaGlyph name={g.icon} />
-                  </span>
-                  <div className="group-head-text">
-                    <h3 className="group-title">{g.title}</h3>
-                    <p className="p group-body">{g.body}</p>
-                  </div>
-                </div>
-                {g.section === "earlier" ? (
-                  <div className="earlier-list">
-                    {items.map((p) => (
-                      <EarlierRow key={p.slug} p={p} />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="work-list">
-                    {items.map((p) => (
-                      <WorkRow key={p.slug} p={p} />
-                    ))}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-
-          {also.length > 0 && (
-            <div className="smaller">
-              <span className="small">Smaller</span>
-              <div className="smaller-links">
-                {also.map((p) =>
-                  p.links.repo ? (
-                    <a key={p.slug} href={p.links.repo} className="tags smaller-link">
-                      {p.title}, {p.note}
-                    </a>
-                  ) : (
-                    <span key={p.slug} className="tags">
-                      {p.title}, {p.note}
-                    </span>
-                  ),
-                )}
-              </div>
-            </div>
-          )}
+          <div className="work-list">
+            {picks.map((p) => (
+              <WorkRow key={p.slug} p={p} />
+            ))}
+          </div>
+          <Link href="/work" className="arrow-link self-start see-all">
+            All work, grouped by area <ArrowRight />
+          </Link>
         </section>
 
-        {/* EXPERIENCE */}
+        {/* NOW */}
         <section id="experience" className="wrap two-col exp">
           <div className="two-col-lead">
-            <h2 className="h2">Experience</h2>
-            <p className="p lead-note">
-              {education.school}, {education.degree}, {education.when}.
-              <span className="desk"> Software engineering roles first, then research.</span>
-            </p>
-            {site.cv && (
-              <a href={site.cv} className="arrow-link self-start" target="_blank" rel="noreferrer">
-                Full CV as PDF
-              </a>
-            )}
+            <h2 className="h2">Now</h2>
+            <p className="p lead-note">Current roles. The full history, with research, is on its own page.</p>
+            <Link href="/experience" className="arrow-link self-start">
+              Full experience <ArrowRight />
+            </Link>
           </div>
           <div className="exp-list">
-            <span className="group-label">Software engineering</span>
-            <div className="exp-group">
-              {swe.map((e) => (
-                <ExperienceRow key={e.org + e.start} e={e} />
-              ))}
-            </div>
-            <span className="group-label group-label-2">Research</span>
-            <div className="exp-group">
-              {research.map((e) => (
-                <ExperienceRow key={e.org + e.start} e={e} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* SKILLS */}
-        <section id="skills" className="wrap two-col">
-          <div className="two-col-lead">
-            <h2 className="h2">Skills</h2>
-            <p className="p lead-note">Everything here appears somewhere in the work above.</p>
-          </div>
-          <div className="skills">
-            {skills.map((s) => (
-              <div key={s.name} className="skill">
-                <h3>{s.name}</h3>
-                <p>{s.items}</p>
-              </div>
-            ))}
+            <ExperienceGroup items={current} first />
           </div>
         </section>
 

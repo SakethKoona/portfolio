@@ -41,7 +41,7 @@ export default function BenchCaseStudy() {
 
   return (
     <>
-      <Nav variant="case" />
+      <Nav variant="page" />
       <main className="case">
         {/* HEADER */}
         <header className="wrap cs-header">

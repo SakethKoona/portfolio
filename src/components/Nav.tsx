@@ -1,20 +1,22 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { site } from "@/data/site";
 import { ArrowUpRight, MenuIcon } from "./icons";
 
-const links = [
-  { label: "Work", href: "/#work" },
-  { label: "Experience", href: "/#experience" },
-  { label: "About", href: "/#about" },
+export const navLinks = [
+  { label: "Work", href: "/work" },
+  { label: "Experience", href: "/experience" },
+  { label: "About", href: "/about" },
   { label: "Contact", href: "/#contact" },
 ];
 
-// On the home page the nav sits over the hero photo; on other pages it sits on the dark ground.
-export function Nav({ variant = "home" }: { variant?: "home" | "case" }) {
+// On the home page the nav sits over the hero photo; elsewhere it sits on the dark ground.
+export function Nav({ variant = "home" }: { variant?: "home" | "page" }) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!open) return;
@@ -27,14 +29,16 @@ export function Nav({ variant = "home" }: { variant?: "home" | "case" }) {
     };
   }, [open]);
 
+  const current = (href: string) => href !== "/#contact" && (pathname === href || pathname.startsWith(`${href}/`));
+
   return (
     <nav className={`nav nav-${variant}`} aria-label="Primary">
       <Link href="/" className="wordmark">
         {site.name}
       </Link>
       <div className="nav-links desk">
-        {links.map((l) => (
-          <Link key={l.label} href={l.href}>
+        {navLinks.map((l) => (
+          <Link key={l.label} href={l.href} className={current(l.href) ? "is-current" : undefined} aria-current={current(l.href) ? "page" : undefined}>
             {l.label}
           </Link>
         ))}
@@ -57,7 +61,7 @@ export function Nav({ variant = "home" }: { variant?: "home" | "case" }) {
       </button>
       {open && (
         <div id="mobile-menu" className="menu">
-          {links.map((l) => (
+          {navLinks.map((l) => (
             <Link key={l.label} href={l.href} onClick={() => setOpen(false)}>
               {l.label}
             </Link>
