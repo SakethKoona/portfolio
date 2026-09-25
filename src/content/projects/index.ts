@@ -1,26 +1,34 @@
 import type { Project, Section } from "./types";
 import { vignetteKeys } from "@/components/vignettes";
 
+import build from "./build";
 import elixirBenchmarker from "./elixir-benchmarker";
 import datasetProcessor from "./distributed-dataset-processor";
 import marketSimulator from "./market-simulator";
-import environmentBuilder from "./environment-builder";
 import accountingBench from "./accounting-bench";
 import ghidraEnv from "./ghidra-env";
 import catanRl from "./catan-rl";
+import volatility from "./volatility-forecasting";
+import imcProsperity from "./imc-prosperity";
+import whatsUpDoc from "./whats-up-doc";
+import fakeNews from "./fake-news";
 import sleepBlocker from "./sleep-blocker-app";
 import gamblingMl from "./gambling-ml";
 
 export type { Project, Section } from "./types";
 
 const all: Project[] = [
+  build,
   elixirBenchmarker,
   datasetProcessor,
   marketSimulator,
-  environmentBuilder,
   accountingBench,
   ghidraEnv,
   catanRl,
+  volatility,
+  imcProsperity,
+  whatsUpDoc,
+  fakeNews,
   sleepBlocker,
   gamblingMl,
 ];
@@ -42,10 +50,11 @@ function validate(projects: Project[]): Project[] {
     if (p.section === "also") {
       if (!p.note) errors.push(`${at}: "also" projects need a note`);
     } else {
-      if (p.body.length === 0) errors.push(`${at}: missing body`);
+      if (!p.body.trim()) errors.push(`${at}: missing body`);
       if (p.tags.length === 0) errors.push(`${at}: missing tags`);
-      if (!p.vignette) errors.push(`${at}: missing vignette`);
     }
+    if (p.section === "featured" && !p.headline) errors.push(`${at}: featured projects need a headline`);
+    if ((p.section === "featured" || p.section === "more") && !p.vignette) errors.push(`${at}: missing vignette`);
     if (p.vignette && !vignetteKeys.includes(p.vignette)) errors.push(`${at}: unknown vignette "${p.vignette}"`);
     if (p.status === "private" && (p.links.repo || p.links.live))
       errors.push(`${at}: private projects must not link a repo or live URL`);

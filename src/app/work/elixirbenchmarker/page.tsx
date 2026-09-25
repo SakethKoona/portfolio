@@ -58,15 +58,15 @@ export default function BenchCaseStudy() {
               concurrently, scores each result, and streams progress to the browser. Postgres sits between the web tier
               and any number of worker nodes.
             </p>
-            <div className="tags">
+            <div className="chips">
               {tags.map((t) => (
-                <span key={t} className="tag">
+                <span key={t} className="chip">
                   {t}
                 </span>
               ))}
             </div>
           </div>
-          <div className="card glance spot">
+          <div className="card glance">
             <div className="eyebrow" style={{ marginBottom: 8 }}>
               At a glance
             </div>
@@ -220,7 +220,7 @@ export default function BenchCaseStudy() {
 
         {/* PLUGINS + STATES */}
         <section className="wrap cs-section cs-plugins">
-          <div className="card cs-plugin-card spot">
+          <div className="card cs-plugin-card">
             <div className="col" style={{ gap: 12 }}>
               <div className="eyebrow">03 · Plugin pattern</div>
               <h2 className="cs-h2 cs-h2-sm">Executors and scorers are plugins</h2>
@@ -278,7 +278,7 @@ export default function BenchCaseStudy() {
               {"])"}
             </pre>
           </div>
-          <div className="card cs-states-card spot">
+          <div className="card cs-states-card">
             <div className="eyebrow">04 · Execution states</div>
             <h2 className="cs-h2 cs-h2-sm">Five execution states</h2>
             <div className="vig cs-states">
@@ -306,7 +306,7 @@ export default function BenchCaseStudy() {
 
         {/* TRIALS + SAFETY */}
         <section className="wrap cs-section cs-three">
-          <div className="card cs-mini spot">
+          <div className="card cs-mini">
             <div className="eyebrow">05 · Trials</div>
             <div className="serif cs-mini-title">A benchmark is a saved (dataset, scorer) pair.</div>
             <p className="p p-15">
@@ -320,7 +320,7 @@ export default function BenchCaseStudy() {
               <span className="mono small faint">· compare the spread</span>
             </div>
           </div>
-          <div className="card cs-mini spot">
+          <div className="card cs-mini">
             <div className="eyebrow">06 · Shell escaping</div>
             <div className="serif cs-mini-title">Dataset input is untrusted.</div>
             <p className="p p-15">
@@ -330,7 +330,7 @@ export default function BenchCaseStudy() {
               &apos;it&apos;&quot;&apos;&quot;&apos;s escaped&apos;
             </div>
           </div>
-          <div className="card cs-mini spot">
+          <div className="card cs-mini">
             <div className="eyebrow">07 · Process control</div>
             <div className="serif cs-mini-title">Timeouts end the whole process group.</div>
             <p className="p p-15">
@@ -366,7 +366,7 @@ export default function BenchCaseStudy() {
                   </span>
                 ))}
               </div>
-              <span className="pill pill-dark bench-ui-launch" aria-hidden="true">
+              <span className="pill bench-ui-launch" aria-hidden="true">
                 Launch benchmark
               </span>
             </div>
@@ -443,7 +443,7 @@ export default function BenchCaseStudy() {
         {/* LEARNED + NEXT */}
         <section className="wrap cs-section cs-learned">
           <div className="card cs-next">
-            <div className="eyebrow eyebrow-dark">Next up</div>
+            <div className="eyebrow">Next up</div>
             <div className="row cs-next-item">
               <span className="dot" style={{ width: 7, height: 7, background: "#E7B08A" }} />
               containers executor

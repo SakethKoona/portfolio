@@ -51,16 +51,16 @@ function useLiveCursor() {
 function Status({ i, cursor, compact }: { i: number; cursor: number; compact?: boolean }) {
   if (i === cursor)
     return (
-      <span className="state st-run">
-        <span className="dot dot-pulse" style={{ width: 6, height: 6, background: "#2F5FA8" }} />
+      <span className="st st-run">
+        <span className="dot dot-pulse" style={{ width: 6, height: 6, background: "#9FC4D9" }} />
         running
       </span>
     );
-  if (i > cursor) return <span className="state">pending</span>;
+  if (i > cursor) return <span className="st">pending</span>;
   const outcome = outcomes[i % outcomes.length];
-  if (outcome === "timeout") return <span className="state st-to">{compact ? "timeout" : "timeout · 30s"}</span>;
-  if (outcome === "failed") return <span className="state st-fail">failed</span>;
-  return <span className="state st-ok">{compact ? "completed · 1.0" : "completed · score 1.0"}</span>;
+  if (outcome === "timeout") return <span className="st st-to">{compact ? "timeout" : "timeout, 30s"}</span>;
+  if (outcome === "failed") return <span className="st st-fail">failed</span>;
+  return <span className="st st-ok">{compact ? "completed, 1.0" : "completed, score 1.0"}</span>;
 }
 
 function Rows({ cursor, compact }: { cursor: number; compact?: boolean }) {
@@ -70,9 +70,9 @@ function Rows({ cursor, compact }: { cursor: number; compact?: boolean }) {
       {[first, first + 1, first + 2, first + 3].map((i) => (
         <div
           key={i}
-          className={`task-row${i === cursor ? " is-running" : ""}${cursor !== START_CURSOR && i === first + 3 ? " is-new" : ""}`}
+          className={`trow${i === cursor ? " is-running" : ""}${cursor !== START_CURSOR && i === first + 3 ? " is-new" : ""}`}
         >
-          <span>{compact ? pad(i) : `${pad(i)} · ${kind(i)}`}</span>
+          <span>{compact ? pad(i) : `${pad(i)}, ${kind(i)}`}</span>
           <Status i={i} cursor={cursor} compact={compact} />
         </div>
       ))}
@@ -85,11 +85,11 @@ export function LiveRunDesktop() {
   return (
     <div ref={ref} className="live-run">
       <div className="row between">
-        <div className="vig-title">run 8f3a · trial 2 of 3 · live</div>
-        <div className="row sse-live">
-          <span className="dot dot-pulse" style={{ width: 7, height: 7, background: "#2F5FA8" }} />
-          SSE · snapshot #<RollingNumber value={snapshot} /> · full state, not a diff
-        </div>
+        <span className="dg-title">run 8f3a, trial 2 of 3, live</span>
+        <span className="sse-live">
+          <span className="dot dot-pulse dot-glow" style={{ width: 7, height: 7, background: "#9FC4D9" }} />
+          SSE, snapshot #<RollingNumber value={snapshot} />, full state, not a diff
+        </span>
       </div>
       <div className="task-list">
         <Rows cursor={cursor} />
@@ -101,13 +101,13 @@ export function LiveRunDesktop() {
 export function LiveRunMobile() {
   const { ref, cursor, snapshot } = useLiveCursor();
   return (
-    <div ref={ref} className="live-run">
+    <div ref={ref} className="live-run live-run-sm">
       <div className="row between">
-        <div className="vig-title">run 8f3a · trial 2 of 3</div>
-        <div className="row sse-live" style={{ fontSize: 10.5 }}>
-          <span className="dot dot-pulse" style={{ width: 6, height: 6, background: "#2F5FA8" }} />
+        <span className="dg-title">run 8f3a, trial 2 of 3</span>
+        <span className="sse-live" style={{ fontSize: 10.5 }}>
+          <span className="dot dot-pulse dot-glow" style={{ width: 6, height: 6, background: "#9FC4D9" }} />
           SSE #<RollingNumber value={snapshot} />
-        </div>
+        </span>
       </div>
       <Rows cursor={cursor} compact />
     </div>

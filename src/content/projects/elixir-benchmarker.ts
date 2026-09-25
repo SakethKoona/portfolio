@@ -4,16 +4,12 @@ const project: Project = {
   slug: "elixirbenchmarker",
   title: "ElixirBenchmarker",
   section: "featured",
-  order: 1,
-  eyebrow: "Distributed benchmarking",
-  body: [
-    "A distributed, highly concurrent benchmark platform for AI agents. Hand it a dataset of tasks, point it at a harness (an HTTP API or a CLI subprocess), and it runs the whole dataset concurrently, scores each result, and streams progress to the UI as it happens.",
-    "Postgres and Oban are the integration point, not BEAM clustering: the web app enqueues one job per task, workers poll and execute. Scaling out means starting another worker node.",
-  ],
-  mobileBody:
-    "A distributed, highly concurrent benchmark platform for AI agents. Hand it a dataset of tasks and a harness (HTTP API or CLI subprocess); it runs the dataset concurrently, scores each result, and streams progress to the UI over SSE. Postgres and Oban are the integration point: scaling out means starting another worker.",
-  tags: ["Elixir · OTP", "Phoenix", "Oban", "Postgres", "SSE", "Next.js / TS"],
-  mobileTags: ["Elixir · OTP", "Phoenix", "Oban", "Postgres", "SSE", "Next.js"],
+  order: 2,
+  headline: { lead: "ElixirBenchmarker, a benchmark platform", em: "for agents" },
+  body: "Runs a dataset of agent tasks against a harness concurrently, scores each result and streams progress over SSE. Postgres and Oban sit between the web tier and the workers.",
+  summary:
+    "Runs a dataset of tasks against a harness concurrently, scores each result and streams progress over SSE. Postgres and Oban sit between the web tier and any number of workers.",
+  tags: ["Elixir", "Phoenix", "Oban", "Postgres", "SSE"],
   links: {
     caseStudy: "/work/elixirbenchmarker",
     live: "https://elixirbenchmarker.vercel.app",

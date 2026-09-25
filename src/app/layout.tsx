@@ -1,17 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Sans, JetBrains_Mono, Newsreader } from "next/font/google";
+import { Hanken_Grotesk, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import { site } from "@/data/site";
-import { Spotlight } from "@/components/Spotlight";
 import "./globals.css";
 
-const sans = Instrument_Sans({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-sans" });
+const sans = Hanken_Grotesk({ subsets: ["latin"], weight: ["300", "400", "500"], variable: "--font-sans" });
+const serif = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-serif" });
 const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono" });
-const serif = Newsreader({
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  axes: ["opsz"],
-  variable: "--font-serif",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -21,15 +15,12 @@ export const metadata: Metadata = {
   twitter: { card: "summary", title: site.name, description: site.description },
 };
 
-export const viewport: Viewport = { themeColor: "#F4F3F0" };
+export const viewport: Viewport = { themeColor: "#0A100D" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${sans.variable} ${mono.variable} ${serif.variable}`}>
-      <body>
-        {children}
-        <Spotlight />
-      </body>
+    <html lang="en" className={`${sans.variable} ${serif.variable} ${mono.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }

@@ -1,42 +1,65 @@
 import Link from "next/link";
+import { projectsIn } from "@/content/projects";
 import { site } from "@/data/site";
-import { ExecutionState } from "./ExecutionState";
 
-const links = [
+const pages = [
   { label: "Work", href: "/#work" },
+  { label: "Experience", href: "/#experience" },
   { label: "About", href: "/#about" },
   { label: "Contact", href: "/#contact" },
 ];
 
-function FooterLinks() {
-  return (
-    <div className="footer-links">
-      {links.map((l) => (
-        <Link key={l.label} href={l.href}>
-          {l.label}
-        </Link>
-      ))}
-    </div>
-  );
-}
-
 export function Footer() {
   const year = new Date().getFullYear();
+  const featured = projectsIn("featured");
+  const more = projectsIn("more").filter((p) => p.links.repo || p.links.live);
+  const listed = [...featured, ...more].slice(0, 4);
   return (
-    <footer className="footer">
-      <div className="wrap footer-inner">
-        <div className="footer-row">
-          <div className="mono footer-states">
-            <ExecutionState />
-            <span className="footer-states-note desk-inline">page progress</span>
-          </div>
-          <FooterLinks />
+    <footer className="foot">
+      <div className="wrap foot-grid">
+        <div className="foot-about">
+          <span className="wordmark">{site.name}</span>
+          <p className="p foot-blurb">{site.blurb}</p>
+          <span className="small foot-year">© {year}</span>
         </div>
-        <div className="mono footer-row footer-legal">
-          <span>
-            © {year} {site.name}
-          </span>
+        <div className="foot-col">
+          <span className="foot-head">Pages</span>
+          {pages.map((l) => (
+            <Link key={l.label} href={l.href}>
+              {l.label}
+            </Link>
+          ))}
         </div>
+        <div className="foot-col">
+          <span className="foot-head">Projects</span>
+          {listed.map((p) => (
+            <a key={p.slug} href={p.links.live ?? p.links.repo}>
+              {p.title === "Distributed Image Processing Engine" ? "Image engine" : p.title}
+            </a>
+          ))}
+        </div>
+        <div className="foot-col">
+          <span className="foot-head">Elsewhere</span>
+          <a href={site.github}>GitHub</a>
+          {site.linkedin && <a href={site.linkedin}>LinkedIn</a>}
+          {site.resume && (
+            <a href={site.resume} target="_blank" rel="noreferrer">
+              Résumé
+            </a>
+          )}
+        </div>
+      </div>
+      <div className="wrap foot-mobile mob">
+        <div className="foot-links">
+          {pages.map((l) => (
+            <Link key={l.label} href={l.href}>
+              {l.label}
+            </Link>
+          ))}
+        </div>
+        <span className="small">
+          © {year} {site.name}
+        </span>
       </div>
     </footer>
   );
@@ -45,15 +68,21 @@ export function Footer() {
 export function CaseFooter() {
   const year = new Date().getFullYear();
   return (
-    <footer className="footer">
-      <div className="wrap footer-case">
-        <Link href="/#work" className="pill pill-light">
-          ← Back to all work
+    <footer className="foot">
+      <div className="wrap foot-case">
+        <Link href="/#work" className="arrow-link">
+          Back to all work
         </Link>
-        <div className="mono footer-case-legal">
+        <span className="small">
           © {year} {site.name}
+        </span>
+        <div className="foot-links">
+          {pages.map((l) => (
+            <Link key={l.label} href={l.href}>
+              {l.label}
+            </Link>
+          ))}
         </div>
-        <FooterLinks />
       </div>
     </footer>
   );

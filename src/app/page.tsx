@@ -1,223 +1,279 @@
-import { Fragment, type CSSProperties } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
-import { AlsoStrip, EvalCard, FeaturedCard } from "@/components/ProjectCards";
-import { projectsIn } from "@/content/projects";
-import { site } from "@/data/site";
-import { experience } from "@/data/experience";
+import { Featured } from "@/components/Featured";
+import { Fireflies } from "@/components/Fireflies";
+import { RichText } from "@/components/RichText";
+import { Vignette } from "@/components/vignettes";
+import { AreaGlyph, ArrowRight, ArrowUpRight } from "@/components/icons";
+import { projectsIn, type Project } from "@/content/projects";
+import { education, experience, formatRange, type Experience } from "@/data/experience";
+import { skills } from "@/data/skills";
+import { areas, site } from "@/data/site";
 
-const headline = [
-  ["I build", "#1F1E22"],
-  ["distributed", "#1F1E22"],
-  ["backends", "#2A292E"],
-  ["and", "#38373C"],
-  ["evaluation", "#46454A"],
-  ["environments", "#55535A"],
-  ["for", "#64626A"],
-  ["AI", "#726F77"],
-  ["agents.", "#8A888D"],
-];
-
-function formatMonth(ym: string) {
-  const [y, m] = ym.split("-").map(Number);
-  return new Date(Date.UTC(y, m - 1, 1)).toLocaleString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
+function ProjectLinks({ p, className = "arrow-link" }: { p: Project; className?: string }) {
+  const { links } = p;
+  if (p.status === "private") return <span className="small">Write-up available on request</span>;
+  return (
+    <div className="row-links">
+      {links.caseStudy && (
+        <Link href={links.caseStudy} className={className}>
+          Case study <ArrowRight />
+        </Link>
+      )}
+      {links.live && (
+        <a href={links.live} className={className}>
+          {p.slug === "build" ? "Open the live app" : "Live"} <ArrowRight />
+        </a>
+      )}
+      {links.repo && (
+        <a href={links.repo} className={className}>
+          Repository <ArrowRight />
+        </a>
+      )}
+    </div>
+  );
 }
 
-function Band({ mobile }: { mobile?: boolean }) {
-  if (mobile)
-    return (
-      <svg viewBox="0 0 350 160" preserveAspectRatio="none" role="img" aria-label="Abstract layered horizon in warm sand, terracotta and slate" className="band-svg mob">
-        <rect width="350" height="160" fill="#EDE6DA" />
-        <path d="M0 96 C 60 80, 110 116, 170 92 S 280 70, 350 96 L350 160 L0 160 Z" fill="#D9C9B4" />
-        <path d="M0 122 C 80 100, 150 134, 220 116 S 310 100, 350 126 L350 160 L0 160 Z" fill="#C89A80" />
-        <path d="M0 144 C 90 130, 190 154, 260 140 S 330 134, 350 146 L350 160 L0 160 Z" fill="#8C5A44" />
-        <circle cx="290" cy="44" r="20" fill="#B84A26" opacity="0.85" />
-      </svg>
-    );
+// A project row with its diagram. `mobOnly` rows exist for phones, where the carousel shows one project.
+function WorkRow({ p, mobOnly }: { p: Project; mobOnly?: boolean }) {
   return (
-    <svg viewBox="0 0 1280 240" preserveAspectRatio="none" role="img" aria-label="Abstract layered horizon in warm sand, terracotta and slate" className="band-svg desk">
-      <rect width="1280" height="240" fill="#EDE6DA" />
-      <path d="M0 150 C 200 110, 380 190, 600 140 S 1000 100, 1280 150 L1280 240 L0 240 Z" fill="#D9C9B4" />
-      <path d="M0 185 C 260 150, 520 205, 760 175 S 1120 150, 1280 190 L1280 240 L0 240 Z" fill="#C89A80" />
-      <path d="M0 215 C 300 195, 640 232, 900 210 S 1180 200, 1280 220 L1280 240 L0 240 Z" fill="#8C5A44" />
-      <circle cx="1040" cy="72" r="34" fill="#B84A26" opacity="0.85" />
-      <g stroke="#FFFFFF" strokeOpacity="0.45" strokeWidth="1">
-        <line x1="0" y1="60" x2="1280" y2="60" />
-        <line x1="0" y1="96" x2="1280" y2="96" />
-      </g>
-    </svg>
+    <article className={`work${mobOnly ? " mob" : ""}`}>
+      <div className="work-text">
+        <div className="work-head">
+          <h3 className="h3">{p.title}</h3>
+          {p.status === "private" && <span className="st">private</span>}
+        </div>
+        <p className="p work-body desk">
+          <RichText text={p.body} />
+        </p>
+        <p className="p work-body mob">
+          <RichText text={p.summary ?? p.body} />
+        </p>
+        <span className="tags work-tags">
+          {p.tags.join(", ")}
+          {p.status === "private" && ". Write-up on request."}
+        </span>
+        <div className="work-links">
+          <ProjectLinks p={p} />
+        </div>
+      </div>
+      {p.vignette && (
+        <div className="work-art">
+          <Vignette name={p.vignette} />
+        </div>
+      )}
+    </article>
+  );
+}
+
+function ExperienceRow({ e }: { e: Experience }) {
+  return (
+    <div className="exp-row">
+      <span className="small exp-when">{formatRange(e.start, e.end)}</span>
+      <div className="exp-what">
+        <div className="exp-org">
+          {e.org} <span className="small exp-role">{e.role}</span>
+        </div>
+        <p className="p exp-summary desk">{e.summary}</p>
+        <p className="p exp-summary mob">{e.summaryShort ?? e.summary}</p>
+      </div>
+    </div>
   );
 }
 
 export default function Home() {
   const featured = projectsIn("featured");
-  const evals = projectsIn("evals");
+  const more = projectsIn("more");
+  const earlier = projectsIn("earlier");
   const also = projectsIn("also");
-  const whereabouts = [site.city, site.timeZone].filter(Boolean).join(" · ");
+  const swe = experience.filter((e) => e.group === "swe");
+  const research = experience.filter((e) => e.group === "research");
 
   return (
     <>
-      <Nav />
       <main>
         {/* HERO */}
-        <section id="top" className="wrap hero">
-          <div className="hero-main">
-            <div className="eyebrow eyebrow-dot">
-              <span className="dot dot-accent" />
-              <span className="desk-inline">{site.focus}</span>
-              <span className="mob-inline">{site.focusShort}</span>
-            </div>
-            <h1 className="serif hero-title">
-              {headline.map(([word, color], i) => (
-                <Fragment key={word}>
-                  <span className="hero-word" style={{ color, "--i": i } as CSSProperties}>
-                    {word}
-                  </span>
-                  {i < headline.length - 1 && " "}
-                </Fragment>
-              ))}
-            </h1>
-            <p className="p hero-lede enter" style={{ "--d": "520ms" } as CSSProperties}>
-              Most of my work is in Rust, Elixir and C++: job queues, worker pools, Kafka pipelines and a matching engine. I
-              also build the benchmarks and RL environments used to test and train agents.
-            </p>
-            <div className="hero-actions enter" style={{ "--d": "620ms" } as CSSProperties}>
-              <a href="#work" className="pill pill-dark">
-                See the work
-              </a>
-              <a href={`mailto:${site.email}`} className="pill pill-light">
-                {site.email}
-              </a>
-              <a href={site.github} className="pill pill-ghost desk-flex">
-                GitHub ↗
-              </a>
-            </div>
-            <div className="mono hero-status enter" style={{ "--d": "720ms" } as CSSProperties}>
-              <span className="dot dot-live" />
-              <span>
-                currently: {site.currently}
-                {whereabouts && ` · ${whereabouts}`}
+        <section className="hero" id="top">
+          <Image src={site.heroImage} alt="" fill priority sizes="100vw" className="hero-img" />
+          <div className="hero-fade-x" />
+          <div className="hero-fade-y" />
+          <Fireflies />
+          <Nav />
+          <div className="wrap hero-inner">
+            <div className="hero-text">
+              <span className="small enter" style={{ animationDelay: "60ms" }}>
+                {site.role}
               </span>
+              <h1 className="hero-title enter" style={{ animationDelay: "140ms" }}>
+                {site.headline.lead}
+                <br className="desk" /> <span className="em accent">{site.headline.em}</span>
+              </h1>
+              <p className="p hero-lede enter desk" style={{ animationDelay: "260ms" }}>
+                {site.intro}
+              </p>
+              <p className="p hero-lede enter mob" style={{ animationDelay: "260ms" }}>
+                {site.introShort}
+              </p>
+              <a href="#work" className="pill enter" style={{ animationDelay: "360ms" }}>
+                See the work
+                <span className="arr">
+                  <ArrowUpRight />
+                </span>
+              </a>
             </div>
+          </div>
+          <div className="scroll-hint">
+            <span className="scroll-line" />
+            <span className="small">Scroll</span>
           </div>
         </section>
 
-        {/* SELECTED WORK */}
-        <section id="work" className="wrap section section-work">
-          <div className="section-head">
-            <div className="section-head-text">
-              <div className="eyebrow">Selected work</div>
-              <h2 className="serif h2">Backend systems</h2>
+        {/* FOUR AREAS */}
+        <section className="wrap areas">
+          {areas.map((a) => (
+            <div key={a.title} className="area">
+              <span className="icon">
+                <AreaGlyph name={a.icon} />
+              </span>
+              <div className="area-title">{a.title}</div>
+              <p className="p area-body desk">{a.body}</p>
+              <p className="p area-body mob">{a.bodyShort}</p>
             </div>
-          </div>
-          {featured.map((p) => (
-            <FeaturedCard key={p.slug} project={p} />
           ))}
         </section>
 
-        {/* EVALS */}
-        <section className="wrap section section-evals">
+        {/* FEATURED */}
+        <Featured items={featured} />
+
+        {/* MORE WORK */}
+        <section className="wrap more">
           <div className="section-head">
-            <div className="section-head-text">
-              <div className="eyebrow">Evals &amp; environments</div>
-              <h2 className="serif h2">Agent evals and RL environments</h2>
-            </div>
+            <h2 className="h2">More work</h2>
+            <span className="small desk">Private projects have a write-up on request</span>
           </div>
-          <div className="eval-grid">
-            {evals.map((p) => (
-              <EvalCard key={p.slug} project={p} />
+          <div className="work-list">
+            {featured.slice(1).map((p) => (
+              <WorkRow key={p.slug} p={p} mobOnly />
+            ))}
+            {more.map((p) => (
+              <WorkRow key={p.slug} p={p} />
             ))}
           </div>
-          <AlsoStrip projects={also} />
-        </section>
 
-        {/* EXPERIENCE (only when filled in) */}
-        {experience.length > 0 && (
-          <section id="experience" className="wrap section section-exp">
-            <div className="section-head">
-              <div className="section-head-text">
-                <div className="eyebrow">Experience</div>
-                <h2 className="serif h2">Experience</h2>
+          <div className="section-head earlier-head">
+            <h3 className="h3 earlier-title">Trading, ML and hackathon projects</h3>
+            <span className="small desk">Earlier work, without diagrams</span>
+          </div>
+          <div className="earlier-list">
+            {earlier.map((p) => (
+              <div key={p.slug} className="earlier-row">
+                <span className="earlier-name">
+                  {p.title}
+                  {p.meta && <span className="small"> {p.meta}</span>}
+                </span>
+                <p className="p earlier-body desk">{p.body}</p>
+                <p className="p earlier-body mob">{p.summary ?? p.body}</p>
+                <span className="tags earlier-tags">{p.tags.join(", ")}</span>
+              </div>
+            ))}
+          </div>
+
+          {also.length > 0 && (
+            <div className="smaller">
+              <span className="small">Smaller</span>
+              <div className="smaller-links">
+                {also.map((p) =>
+                  p.links.repo ? (
+                    <a key={p.slug} href={p.links.repo} className="tags smaller-link">
+                      {p.title}, {p.note}
+                    </a>
+                  ) : (
+                    <span key={p.slug} className="tags">
+                      {p.title}, {p.note}
+                    </span>
+                  ),
+                )}
               </div>
             </div>
-            <ol className="card timeline">
-              {experience.map((e) => (
-                <li key={`${e.org}-${e.start}`} className={`tl-item${e.end ? "" : " is-current"}`}>
-                  <span className="tl-dot" aria-hidden="true" />
-                  <div className="mono tl-when">
-                    {formatMonth(e.start)} to {e.end ? formatMonth(e.end) : "present"}
-                  </div>
-                  <div className="tl-what">
-                    <h3 className="serif tl-org">{e.org}</h3>
-                    <div className="tl-role">
-                      {e.role}
-                      {e.location && <span className="tl-loc"> · {e.location}</span>}
-                    </div>
-                    {e.summary && <p className="p p-15">{e.summary}</p>}
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </section>
-        )}
+          )}
+        </section>
 
-        {/* BAND */}
-        <section className="wrap section-band">
-          <div className="band">
-            <Band />
-            <Band mobile />
+        {/* EXPERIENCE */}
+        <section id="experience" className="wrap two-col exp">
+          <div className="two-col-lead">
+            <h2 className="h2">Experience</h2>
+            <p className="p lead-note">
+              {education.school}, {education.degree}, {education.when}.
+              <span className="desk"> Software engineering roles first, then research.</span>
+            </p>
+            {site.cv && (
+              <a href={site.cv} className="arrow-link self-start" target="_blank" rel="noreferrer">
+                Full CV as PDF
+              </a>
+            )}
+          </div>
+          <div className="exp-list">
+            <span className="group-label">Software engineering</span>
+            <div className="exp-group">
+              {swe.map((e) => (
+                <ExperienceRow key={e.org + e.start} e={e} />
+              ))}
+            </div>
+            <span className="group-label group-label-2">Research</span>
+            <div className="exp-group">
+              {research.map((e) => (
+                <ExperienceRow key={e.org + e.start} e={e} />
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* ABOUT + CONTACT */}
-        <section id="about" className="wrap section-about">
-          <div className="card about spot">
-            <div className="eyebrow">About</div>
-            <h2 className="serif h2 about-title">Hi, I&apos;m Saketh.</h2>
-            <p className="p about-p">
-              I work on two things: distributed, concurrent backend systems in Rust, Elixir and C++, and evaluation and RL
-              environments for AI agents. On the backend side that means queues, workers and process supervision. On the
-              eval side it means harnesses, graders and reward functions that produce a score you can check.
-            </p>
-            <p className="p about-p">
-              {site.affiliation && `I'm currently at ${site.affiliation}. `}I&apos;m open to conversations about backend
-              infrastructure and agent evaluation.
-            </p>
+        {/* ABOUT + SKILLS */}
+        <section id="about" className="wrap two-col about">
+          <div className="two-col-lead">
+            <h2 className="h2">About</h2>
+            <p className="p lead-note about-note">{site.about}</p>
           </div>
-          <div id="contact" className="card contact">
-            <div className="eyebrow eyebrow-dark">Contact</div>
-            <h2 className="serif contact-title">Get in touch</h2>
-            <div className="contact-rows">
-              <a href={`mailto:${site.email}`} className="contact-row">
-                <span className="mono contact-k">EMAIL</span>
-                <span>{site.email}</span>
-              </a>
-              <a href={site.github} className="contact-row">
-                <span className="mono contact-k">GITHUB</span>
-                <span>
-                  <span className="desk-inline">github.com/</span>
-                  {site.githubHandle} ↗
-                </span>
+          <div className="skills">
+            {skills.map((s) => (
+              <div key={s.name} className="skill">
+                <h3>{s.name}</h3>
+                <p>{s.items}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* CONTACT */}
+        <section id="contact" className="cta">
+          <div className="wrap cta-inner">
+            <span className="small">Contact</span>
+            <h2 className="h2 cta-title">
+              {site.contactLine.lead} <span className="em accent">{site.contactLine.em}</span> {site.contactLine.tail}
+            </h2>
+            <a href={`mailto:${site.email}`} className="pill">
+              {site.email}
+              <span className="arr">
+                <ArrowUpRight />
+              </span>
+            </a>
+            <div className="cta-links mob">
+              <a href={site.github} className="link">
+                GitHub
               </a>
               {site.linkedin && (
-                <a href={site.linkedin} className="contact-row">
-                  <span className="mono contact-k">LINKEDIN</span>
-                  <span>{site.linkedin.replace(/^https?:\/\/(www\.)?/, "")} ↗</span>
+                <a href={site.linkedin} className="link">
+                  LinkedIn
                 </a>
               )}
               {site.resume && (
-                <a href={site.resume} className="contact-row" target="_blank" rel="noreferrer">
-                  <span className="mono contact-k">RÉSUMÉ</span>
-                  <span>PDF ↗</span>
+                <a href={site.resume} className="link" target="_blank" rel="noreferrer">
+                  Résumé
                 </a>
               )}
             </div>
-            {site.timeZone && (
-              <div className="mono contact-foot">
-                <span className="dot" style={{ width: 7, height: 7, background: "#5FBF86" }} />
-                {site.timeZone}
-              </div>
-            )}
           </div>
         </section>
       </main>

@@ -1,6 +1,12 @@
 import type { VignetteKey } from "@/components/vignettes";
 
-export type Section = "featured" | "evals" | "also";
+/**
+ * featured: the carousel at the top of Work, with a diagram.
+ * more:     rows with a diagram.
+ * earlier:  text-only rows (trading, ML and hackathon projects).
+ * also:     one line each.
+ */
+export type Section = "featured" | "more" | "earlier" | "also";
 
 export type Project = {
   slug: string;
@@ -8,25 +14,24 @@ export type Project = {
   section: Section;
   /** Position within its section (1-based). */
   order: number;
-  /** Short category line above the title. */
-  eyebrow: string;
+  /** Featured only: the headline, split around the italic part. */
+  headline?: { lead: string; em: string };
   status?: "wip" | "private" | "archived";
-  /** Desktop paragraphs. Wrap code in `backticks` to render it monospace. */
-  body: string[];
-  /** Condensed single paragraph for phones. Falls back to body. */
-  mobileBody?: string;
+  /** Row paragraph. Wrap code in `backticks` to render it monospace. */
+  body: string;
+  /** Carousel and phone paragraph. Falls back to body. */
+  summary?: string;
+  /** Shown as a comma-separated line. */
   tags: string[];
-  mobileTags?: string[];
   links: {
     live?: string;
     repo?: string;
     /** Internal route to a long-form case study. */
     caseStudy?: string;
   };
-  /** Small mono note beside the links. */
-  linkNote?: string;
-  mobileLinkNote?: string;
   vignette?: VignetteKey;
-  /** One-line description for the "Also" strip. */
+  /** Small label beside the title, e.g. "Hackalytics 2025". */
+  meta?: string;
+  /** One-line description for the "Smaller" list. */
   note?: string;
 };
