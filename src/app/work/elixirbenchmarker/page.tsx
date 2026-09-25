@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import { Nav } from "@/components/Nav";
 import { CaseFooter } from "@/components/Footer";
-import { getProject, projectsIn } from "@/content/projects";
+import { getProject } from "@/content/projects";
 import { site } from "@/data/site";
 
 const project = getProject("elixirbenchmarker");
 
 export const metadata: Metadata = {
-  title: `${project.title} — case study`,
+  title: `${project.title} case study`,
   description:
-    "A distributed benchmark platform for AI agents on the BEAM: Postgres + Oban as the seam between the web tier and N workers, SSE snapshots, and timeouts that actually kill things.",
+    "A distributed benchmark platform for AI agents on the BEAM: Postgres and Oban between the web tier and N workers, SSE snapshots, and process-group timeouts.",
 };
 
 const tags = [
@@ -35,16 +35,9 @@ const hops: { name: string; sub: string; kind?: "db" | "edge" | "dark" }[] = [
   { name: "UI re-renders", sub: "stat tiles · live log", kind: "dark" },
 ];
 
-const quotes = [
-  "Postgres is the queue. Scaling out means starting another worker — no clustering required.",
-  "N independent trials beat N copies of each task: that's what 'is this model consistent?' actually asks.",
-  "Shell-escape untrusted dataset input. It's the only thing between a benchmark and an injection.",
-];
-
 export default function BenchCaseStudy() {
   const repo = project.links.repo;
   const live = project.links.live;
-  const featuredCount = projectsIn("featured").length;
 
   return (
     <>
@@ -59,13 +52,11 @@ export default function BenchCaseStudy() {
               <span className="mob-inline">·</span>
               <span>Distributed benchmarking for AI agents</span>
             </div>
-            <h1 className="serif cs-title">
-              ElixirBenchmarker <span className="ital cs-aka">a.k.a. bench</span>
-            </h1>
+            <h1 className="serif cs-title">ElixirBenchmarker</h1>
             <p className="p cs-lede">
-              I wanted to run a whole dataset of agent tasks against a harness at once, score every result, and watch it
-              happen live, without babysitting a script. So I built a benchmark platform on the BEAM, with Postgres as the
-              seam between the web tier and however many workers I feel like starting.
+              A benchmark platform for AI agents, built on the BEAM. It runs a dataset of tasks against a harness
+              concurrently, scores each result, and streams progress to the browser. Postgres sits between the web tier
+              and any number of worker nodes.
             </p>
             <div className="tags">
               {tags.map((t) => (
@@ -75,7 +66,7 @@ export default function BenchCaseStudy() {
               ))}
             </div>
           </div>
-          <div className="card glance">
+          <div className="card glance spot">
             <div className="eyebrow" style={{ marginBottom: 8 }}>
               At a glance
             </div>
@@ -128,9 +119,9 @@ export default function BenchCaseStudy() {
                 An umbrella with three apps sharing one Postgres database. Postgres and Oban are the integration point
                 rather than BEAM clustering: <span className="mono code-inline">bench_web</span> enqueues one job per task
                 and <span className="mono code-inline">bench_worker</span> nodes poll and execute. To scale out I start
-                another worker. No code changes, no node names, no distribution config.
+                another worker node; there is no distribution config.
               </p>
-              <p className="annot annot-lg">The web tier never talks to a worker directly. It only ever talks to the database.</p>
+              <p className="annot annot-lg">The web tier never talks to a worker directly, only to the database.</p>
             </div>
             <div className="vig cs-arch-vig">
               <div className="row between wrap" style={{ gap: 8 }}>
@@ -193,14 +184,14 @@ export default function BenchCaseStudy() {
           <div className="cs-head-row">
             <div className="col" style={{ gap: 10, maxWidth: 760 }}>
               <div className="eyebrow">02 · Realtime path</div>
-              <h2 className="cs-h2">From a worker&apos;s state change to the browser, in seven hops.</h2>
+              <h2 className="cs-h2">Realtime path: worker to browser in seven steps</h2>
               <p className="p">
                 Every state change is written as a RunEvent, then a Postgres NOTIFY fans it into the web tier. The SSE
                 endpoint pushes a full run snapshot each time, not a diff, so a client that reconnects mid-run just gets the
                 current truth.
               </p>
             </div>
-            <div className="annot cs-head-annot">Full snapshots cost a little bandwidth and save every &ldquo;did I miss an event?&rdquo; bug.</div>
+            <div className="annot cs-head-annot">Full snapshots use more bandwidth, but a reconnecting client never misses an event.</div>
           </div>
           <div className="vig cs-hops-vig">
             <ol className="cs-hops">
@@ -229,10 +220,10 @@ export default function BenchCaseStudy() {
 
         {/* PLUGINS + STATES */}
         <section className="wrap cs-section cs-plugins">
-          <div className="card cs-plugin-card">
+          <div className="card cs-plugin-card spot">
             <div className="col" style={{ gap: 12 }}>
               <div className="eyebrow">03 · Plugin pattern</div>
-              <h2 className="cs-h2 cs-h2-sm">Two behaviours, everything else is a plugin.</h2>
+              <h2 className="cs-h2 cs-h2-sm">Executors and scorers are plugins</h2>
               <p className="p p-15">
                 An executor knows how to run one task against a harness. A scorer knows how to turn a result into a number.
                 Adding a new kind of either is one module implementing one callback.
@@ -287,9 +278,9 @@ export default function BenchCaseStudy() {
               {"])"}
             </pre>
           </div>
-          <div className="card cs-states-card">
+          <div className="card cs-states-card spot">
             <div className="eyebrow">04 · Execution states</div>
-            <h2 className="cs-h2 cs-h2-sm">Five states. No sixth.</h2>
+            <h2 className="cs-h2 cs-h2-sm">Five execution states</h2>
             <div className="vig cs-states">
               <div className="row center-x" style={{ gap: 8 }}>
                 <span className="state mono">pending</span>
@@ -306,8 +297,8 @@ export default function BenchCaseStudy() {
               </div>
             </div>
             <p className="p p-15">
-              A timeout is its own terminal state, not a failure with a sad message. When a harness hangs, you want to know
-              that it hung, not that it &ldquo;errored&rdquo;.
+              Timeout is a separate terminal state from failed, so a hung harness is reported as a timeout rather than
+              a generic error.
             </p>
             <div className="annot">MuonTrap guarantees the child is reaped even when the BEAM process that spawned it dies first.</div>
           </div>
@@ -315,7 +306,7 @@ export default function BenchCaseStudy() {
 
         {/* TRIALS + SAFETY */}
         <section className="wrap cs-section cs-three">
-          <div className="card cs-mini">
+          <div className="card cs-mini spot">
             <div className="eyebrow">05 · Trials</div>
             <div className="serif cs-mini-title">A benchmark is a saved (dataset, scorer) pair.</div>
             <p className="p p-15">
@@ -329,27 +320,26 @@ export default function BenchCaseStudy() {
               <span className="mono small faint">· compare the spread</span>
             </div>
           </div>
-          <div className="card cs-mini">
+          <div className="card cs-mini spot">
             <div className="eyebrow">06 · Shell escaping</div>
             <div className="serif cs-mini-title">Dataset input is untrusted.</div>
             <p className="p p-15">
-              The subprocess executor single-quote-escapes every task input before it reaches a command line. A dataset row
-              is data someone else wrote; the executor treats it that way.
+              The subprocess executor single-quote-escapes every task input before it reaches a command line.
             </p>
             <div className="mono cs-escape cs-mini-foot">
-              &apos;it&apos;&quot;&apos;&quot;&apos;s escaped&apos; <span className="faint">← every quote, every time</span>
+              &apos;it&apos;&quot;&apos;&quot;&apos;s escaped&apos;
             </div>
           </div>
-          <div className="card cs-mini">
+          <div className="card cs-mini spot">
             <div className="eyebrow">07 · Process control</div>
-            <div className="serif cs-mini-title">Timeouts that actually kill things.</div>
+            <div className="serif cs-mini-title">Timeouts end the whole process group.</div>
             <p className="p p-15">
-              MuonTrap wraps the OS process so a timeout tears down the whole process group, and nothing leaks when a worker
-              crashes mid-task. Zombie harnesses were the first bug; this is why there isn&apos;t a second.
+              MuonTrap wraps the OS process, so a timeout tears down the whole process group and nothing leaks when a
+              worker crashes mid-task.
             </p>
             <div className="row wrap cs-mini-foot" style={{ gap: 8 }}>
               <span className="state mono st-to">timeout · 30s</span>
-              <span className="mono small faint">→ SIGKILL the group, mark the run, move on</span>
+              <span className="mono small faint">→ process group killed, task marked timeout</span>
             </div>
           </div>
         </section>
@@ -359,9 +349,9 @@ export default function BenchCaseStudy() {
           <div className="cs-head-row">
             <div className="col" style={{ gap: 10 }}>
               <div className="eyebrow">08 · The UI</div>
-              <h2 className="cs-h2">What you actually watch.</h2>
+              <h2 className="cs-h2">The dashboard</h2>
             </div>
-            <div className="mono small muted">Next.js · TypeScript · one EventSource per run · warm beige theme, terracotta dot</div>
+            <div className="mono small muted">Next.js · TypeScript · one EventSource per run</div>
           </div>
           <div className="bench-ui" aria-label="Illustration of the bench dashboard">
             <div className="row between wrap bench-ui-top">
@@ -443,7 +433,7 @@ export default function BenchCaseStudy() {
                   <span className="state mono">pending</span>
                 </div>
                 <div className="annot" style={{ marginTop: "auto", fontSize: 13 }}>
-                  illustrative numbers — the real ones are whatever your harness earns
+                  Illustrative numbers.
                 </div>
               </div>
             </div>
@@ -452,16 +442,6 @@ export default function BenchCaseStudy() {
 
         {/* LEARNED + NEXT */}
         <section className="wrap cs-section cs-learned">
-          <div className="card cs-argue">
-            <div className="eyebrow">09 · What I&apos;d argue for again</div>
-            <div className="cs-quotes">
-              {quotes.map((q) => (
-                <blockquote key={q} className="serif cs-quote">
-                  &ldquo;{q}&rdquo;
-                </blockquote>
-              ))}
-            </div>
-          </div>
           <div className="card cs-next">
             <div className="eyebrow eyebrow-dark">Next up</div>
             <div className="row cs-next-item">
@@ -472,14 +452,13 @@ export default function BenchCaseStudy() {
               <span className="dot" style={{ width: 7, height: 7, background: "#E7B08A" }} />
               llm_judge and human scorers
             </div>
-            <div className="ital cs-next-sig">Want the walkthrough? I&apos;ll happily screen-share a run.</div>
             <a href={`mailto:${site.email}`} className="pill pill-white">
               {site.email}
             </a>
           </div>
         </section>
       </main>
-      <CaseFooter index={project.order} total={featuredCount} />
+      <CaseFooter />
     </>
   );
 }

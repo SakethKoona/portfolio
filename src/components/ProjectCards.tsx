@@ -55,7 +55,7 @@ export function FeaturedCard({ project }: { project: Project }) {
   const { links } = project;
   const primaryRepo = !links.caseStudy && links.repo;
   return (
-    <article className="card featured">
+    <article className="card featured spot">
       <div className="featured-text">
         <div className="eyebrow eyebrow-row">
           <span>{pad(project.order)}</span>
@@ -109,7 +109,7 @@ export function FeaturedCard({ project }: { project: Project }) {
 export function EvalCard({ project }: { project: Project }) {
   const { links } = project;
   return (
-    <article className="card eval">
+    <article className="card eval spot">
       <div className="eval-text">
         <div className="eyebrow eyebrow-row">
           <span>{project.eyebrow}</span>

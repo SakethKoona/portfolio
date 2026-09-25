@@ -1,19 +1,6 @@
-import type { ReactNode } from "react";
+import { LiveRunDesktop, LiveRunMobile } from "./LiveRun";
 
 // Each project's diagram. `.desk` / `.mob` variants follow the desktop and phone designs.
-
-function Dot({ color, size = 7 }: { color: string; size?: number }) {
-  return <span className="dot" style={{ width: size, height: size, background: color }} />;
-}
-
-function TaskRow({ name, children, running }: { name: string; children: ReactNode; running?: boolean }) {
-  return (
-    <div className={`task-row${running ? " is-running" : ""}`}>
-      <span>{name}</span>
-      {children}
-    </div>
-  );
-}
 
 function Bench() {
   return (
@@ -46,30 +33,7 @@ function Bench() {
           </div>
         </div>
         <div className="dash-rule" />
-        <div className="row between">
-          <div className="vig-title">run 8f3a · trial 2 of 3 · live</div>
-          <div className="row sse-live">
-            <Dot color="#2F5FA8" />
-            SSE · snapshot #41 · full state, not a diff
-          </div>
-        </div>
-        <div className="task-list">
-          <TaskRow name="task-012 · subprocess">
-            <span className="state st-ok">completed · score 1.0</span>
-          </TaskRow>
-          <TaskRow name="task-013 · subprocess">
-            <span className="state st-to">timeout · 30s</span>
-          </TaskRow>
-          <TaskRow name="task-014 · http" running>
-            <span className="state st-run">
-              <Dot color="#2F5FA8" size={6} />
-              running
-            </span>
-          </TaskRow>
-          <TaskRow name="task-015 · http">
-            <span className="state">pending</span>
-          </TaskRow>
-        </div>
+        <LiveRunDesktop />
         <div className="vig-foot">
           Bench.Events.notify → pg_notify(&apos;run_events&apos;) → PubSub &quot;run:8f3a&quot; → GET
           /api/runs/8f3a/events
@@ -77,28 +41,7 @@ function Bench() {
       </div>
 
       <div className="vig vig-sm mob">
-        <div className="row between">
-          <div className="vig-title">run 8f3a · trial 2 of 3</div>
-          <div className="row sse-live" style={{ fontSize: 10.5 }}>
-            <Dot color="#2F5FA8" size={6} />
-            SSE #41
-          </div>
-        </div>
-        <TaskRow name="task-012">
-          <span className="state st-ok">completed · 1.0</span>
-        </TaskRow>
-        <TaskRow name="task-013">
-          <span className="state st-to">timeout</span>
-        </TaskRow>
-        <TaskRow name="task-014" running>
-          <span className="state st-run">
-            <Dot color="#2F5FA8" size={6} />
-            running
-          </span>
-        </TaskRow>
-        <TaskRow name="task-015">
-          <span className="state">pending</span>
-        </TaskRow>
+        <LiveRunMobile />
         <div className="dash-rule" style={{ marginTop: 4 }} />
         <div className="row mob-chain">
           <div className="node">bench_web</div>
@@ -359,7 +302,7 @@ function Market() {
         </div>
         <Ladder rows={bids.slice(0, 3)} side="bid" />
         <div className="annot" style={{ marginTop: 8, fontSize: 13 }}>
-          each level: std::list, FIFO — the skip list&apos;s express lanes find 100.06 in 4 hops
+          each level: std::list, FIFO. The skip list finds 100.06 in 4 hops.
         </div>
       </div>
     </>

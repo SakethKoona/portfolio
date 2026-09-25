@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Instrument_Sans, JetBrains_Mono, Newsreader } from "next/font/google";
 import { site } from "@/data/site";
+import { Spotlight } from "@/components/Spotlight";
 import "./globals.css";
 
 const sans = Instrument_Sans({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-sans" });
@@ -25,7 +26,10 @@ export const viewport: Viewport = { themeColor: "#F4F3F0" };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${sans.variable} ${mono.variable} ${serif.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Spotlight />
+      </body>
     </html>
   );
 }

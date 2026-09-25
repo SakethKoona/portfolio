@@ -11,9 +11,9 @@ export const site = {
   timeZone: null as string | null,
   affiliation: null as string | null, // school or employer
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-  focus: "Backend systems · Agent evals · Rust / Elixir",
-  focusShort: "Backend · Agent evals · Rust / Elixir",
+  focus: "Backend systems · Agent evals · Rust / Elixir / C++",
+  focusShort: "Backend · Agent evals · Rust / Elixir / C++",
   currently: "building eval environments for agents",
   description:
-    "Saketh Koona builds distributed, concurrent backends in Rust and Elixir, and the evaluation and RL environments that tell us whether an AI agent actually did the job.",
+    "Saketh Koona builds distributed backends in Rust, Elixir and C++, and evaluation and RL environments for AI agents.",
 };

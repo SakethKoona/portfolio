@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { site } from "@/data/site";
+import { ExecutionState } from "./ExecutionState";
 
 const links = [
   { label: "Work", href: "/#work" },
-  { label: "Notes", href: "/#notes" },
   { label: "About", href: "/#about" },
   { label: "Contact", href: "/#contact" },
 ];
@@ -27,30 +27,23 @@ export function Footer() {
       <div className="wrap footer-inner">
         <div className="footer-row">
           <div className="mono footer-states">
-            <span className="state">pending</span>
-            <span className="arrow">→</span>
-            <span className="state st-run">running</span>
-            <span className="arrow">→</span>
-            <span className="state st-ok">completed</span>
-            <span className="footer-states-note desk-inline">this page&apos;s execution state</span>
+            <ExecutionState />
+            <span className="footer-states-note desk-inline">page progress</span>
           </div>
           <FooterLinks />
         </div>
         <div className="mono footer-row footer-legal">
           <span>
-            © {year} {site.name} · no lorem ipsum was harmed
-            <span className="desk-inline"> · every diagram above is a real code path</span>
+            © {year} {site.name}
           </span>
-          <span className="ital footer-sig">supervised by one very patient GenServer</span>
         </div>
       </div>
     </footer>
   );
 }
 
-export function CaseFooter({ index, total }: { index: number; total: number }) {
+export function CaseFooter() {
   const year = new Date().getFullYear();
-  const pad = (n: number) => String(n).padStart(2, "0");
   return (
     <footer className="footer">
       <div className="wrap footer-case">
@@ -58,8 +51,7 @@ export function CaseFooter({ index, total }: { index: number; total: number }) {
           ← Back to all work
         </Link>
         <div className="mono footer-case-legal">
-          © {year} {site.name} · case study {pad(index)} of {pad(total)} ·{" "}
-          <span className="ital footer-sig">supervised by one very patient GenServer</span>
+          © {year} {site.name}
         </div>
         <FooterLinks />
       </div>

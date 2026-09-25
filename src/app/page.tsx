@@ -1,22 +1,21 @@
+import { Fragment, type CSSProperties } from "react";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { AlsoStrip, EvalCard, FeaturedCard } from "@/components/ProjectCards";
 import { projectsIn } from "@/content/projects";
-import { notes } from "@/content/notes";
 import { site } from "@/data/site";
 import { experience } from "@/data/experience";
 
 const headline = [
   ["I build", "#1F1E22"],
-  ["systems", "#1F1E22"],
-  ["that", "#2A292E"],
-  ["stay", "#38373C"],
-  ["up", "#46454A"],
-  ["when", "#55535A"],
-  ["the", "#64626A"],
-  ["work", "#726F77"],
-  ["gets", "#7E7C83"],
-  ["heavy.", "#8A888D"],
+  ["distributed", "#1F1E22"],
+  ["backends", "#2A292E"],
+  ["and", "#38373C"],
+  ["evaluation", "#46454A"],
+  ["environments", "#55535A"],
+  ["for", "#64626A"],
+  ["AI", "#726F77"],
+  ["agents.", "#8A888D"],
 ];
 
 function formatMonth(ym: string) {
@@ -55,8 +54,6 @@ export default function Home() {
   const evals = projectsIn("evals");
   const also = projectsIn("also");
   const whereabouts = [site.city, site.timeZone].filter(Boolean).join(" · ");
-  const columns = [1, 2, 3] as const;
-  const pad = (n: number) => String(n).padStart(2, "0");
 
   return (
     <>
@@ -72,17 +69,19 @@ export default function Home() {
             </div>
             <h1 className="serif hero-title">
               {headline.map(([word, color], i) => (
-                <span key={word} style={{ color }}>
-                  {word}
-                  {i < headline.length - 1 ? " " : ""}
-                </span>
+                <Fragment key={word}>
+                  <span className="hero-word" style={{ color, "--i": i } as CSSProperties}>
+                    {word}
+                  </span>
+                  {i < headline.length - 1 && " "}
+                </Fragment>
               ))}
             </h1>
-            <p className="p hero-lede">
-              I&apos;m Saketh. I write distributed, concurrent backends in Rust and Elixir, and I build the evaluation and RL
-              environments that tell us whether an AI agent actually did the job.
+            <p className="p hero-lede enter" style={{ "--d": "520ms" } as CSSProperties}>
+              Most of my work is in Rust, Elixir and C++: job queues, worker pools, Kafka pipelines and a matching engine. I
+              also build the benchmarks and RL environments used to test and train agents.
             </p>
-            <div className="hero-actions">
+            <div className="hero-actions enter" style={{ "--d": "620ms" } as CSSProperties}>
               <a href="#work" className="pill pill-dark">
                 See the work
               </a>
@@ -93,17 +92,13 @@ export default function Home() {
                 GitHub ↗
               </a>
             </div>
-            <div className="mono hero-status">
+            <div className="mono hero-status enter" style={{ "--d": "720ms" } as CSSProperties}>
               <span className="dot dot-live" />
               <span>
                 currently: {site.currently}
                 {whereabouts && ` · ${whereabouts}`}
               </span>
             </div>
-          </div>
-          <div className="hero-margin">
-            <p className="ital hero-margin-q">Most of these started as a question I couldn&apos;t answer with a log line.</p>
-            <div className="mono hero-margin-by">— margin note, not a mission statement</div>
           </div>
         </section>
 
@@ -112,10 +107,7 @@ export default function Home() {
           <div className="section-head">
             <div className="section-head-text">
               <div className="eyebrow">Selected work</div>
-              <h2 className="serif h2">Three systems, in the order I&apos;d show them.</h2>
-            </div>
-            <div className="mono section-aside">
-              {pad(1)} — {pad(featured.length)} · the rest lives below
+              <h2 className="serif h2">Backend systems</h2>
             </div>
           </div>
           {featured.map((p) => (
@@ -128,10 +120,8 @@ export default function Home() {
           <div className="section-head">
             <div className="section-head-text">
               <div className="eyebrow">Evals &amp; environments</div>
-              <h2 className="serif h2">Where the agent gets graded.</h2>
-              <p className="ital section-sub mob">no LLM judges in any of these.</p>
+              <h2 className="serif h2">Agent evals and RL environments</h2>
             </div>
-            <div className="ital section-aside-ital">no LLM judges in any of these — the ground truth is computed, not vibes.</div>
           </div>
           <div className="eval-grid">
             {evals.map((p) => (
@@ -147,103 +137,56 @@ export default function Home() {
             <div className="section-head">
               <div className="section-head-text">
                 <div className="eyebrow">Experience</div>
-                <h2 className="serif h2">Where I&apos;ve done it.</h2>
+                <h2 className="serif h2">Experience</h2>
               </div>
             </div>
-            <div className="card exp-list">
+            <ol className="card timeline">
               {experience.map((e) => (
-                <div key={`${e.org}-${e.start}`} className="exp-row">
-                  <div className="mono exp-when">
-                    {formatMonth(e.start)} — {e.end ? formatMonth(e.end) : "present"}
+                <li key={`${e.org}-${e.start}`} className={`tl-item${e.end ? "" : " is-current"}`}>
+                  <span className="tl-dot" aria-hidden="true" />
+                  <div className="mono tl-when">
+                    {formatMonth(e.start)} to {e.end ? formatMonth(e.end) : "present"}
                   </div>
-                  <div className="exp-what">
-                    <div className="exp-role">
-                      <span className="serif exp-org">{e.org}</span> · {e.role}
-                      {e.location && <span className="exp-loc"> · {e.location}</span>}
+                  <div className="tl-what">
+                    <h3 className="serif tl-org">{e.org}</h3>
+                    <div className="tl-role">
+                      {e.role}
+                      {e.location && <span className="tl-loc"> · {e.location}</span>}
                     </div>
                     {e.summary && <p className="p p-15">{e.summary}</p>}
                   </div>
-                </div>
+                </li>
               ))}
-            </div>
+            </ol>
           </section>
         )}
-
-        {/* NOTES */}
-        <section id="notes" className="wrap section section-notes">
-          <div className="section-head">
-            <div className="section-head-text">
-              <div className="eyebrow">Notes · design decisions</div>
-              <h2 className="serif h2">Things I&apos;d argue for again.</h2>
-            </div>
-            <div className="mono section-aside">pulled from the projects above</div>
-          </div>
-          <div className="notes-grid desk-grid">
-            {columns.map((c) => (
-              <div key={c} className="notes-col">
-                {notes
-                  .filter((n) => n.column === c)
-                  .map((n) => (
-                    <figure key={n.quote} className="note">
-                      <blockquote className="note-q">&ldquo;{n.quote}&rdquo;</blockquote>
-                      <figcaption className="note-by">— {n.from}</figcaption>
-                    </figure>
-                  ))}
-                {c === 3 && (
-                  <div className="note note-dark">
-                    <p className="note-q ital">What would you add? I collect these. Send one and I&apos;ll credit you in the margin.</p>
-                    <a href={`mailto:${site.email}`} className="note-by note-cta">
-                      → {site.email}
-                    </a>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-          <div className="notes-list mob-flex">
-            {notes.map((n) => (
-              <figure key={n.quote} className="note">
-                <blockquote className="note-q">&ldquo;{n.quote}&rdquo;</blockquote>
-                <figcaption className="note-by">— {n.from}</figcaption>
-              </figure>
-            ))}
-          </div>
-        </section>
 
         {/* BAND */}
         <section className="wrap section-band">
           <div className="band">
             <Band />
             <Band mobile />
-            <div className="band-text">
-              <div className="serif band-title">Somewhere between the queue and the socket.</div>
-              <div className="mono band-sub">the part of the stack I like best</div>
-            </div>
           </div>
         </section>
 
         {/* ABOUT + CONTACT */}
         <section id="about" className="wrap section-about">
-          <div className="card about">
+          <div className="card about spot">
             <div className="eyebrow">About</div>
             <h2 className="serif h2 about-title">Hi, I&apos;m Saketh.</h2>
             <p className="p about-p">
-              Two threads run through everything I build. The first is distributed, concurrent backend systems in Rust and
-              Elixir: queues, workers, sockets, and the supervision that keeps them honest under load. The second is
-              evaluation and RL environments for AI agents: the harnesses, graders and reward functions that turn &ldquo;it
-              seems to work&rdquo; into a number you can argue with.
+              I work on two things: distributed, concurrent backend systems in Rust, Elixir and C++, and evaluation and RL
+              environments for AI agents. On the backend side that means queues, workers and process supervision. On the
+              eval side it means harnesses, graders and reward functions that produce a score you can check.
             </p>
             <p className="p about-p">
-              I care about the seams: the shell escape nobody wrote, the process that never got reaped, the eval that
-              quietly grades itself.
-              {site.affiliation && ` Currently at ${site.affiliation}.`}
-              <span className="desk-inline"> Open to conversations about backend infrastructure and agent evaluation.</span>
+              {site.affiliation && `I'm currently at ${site.affiliation}. `}I&apos;m open to conversations about backend
+              infrastructure and agent evaluation.
             </p>
-            <div className="ital about-sig">If a system can&apos;t survive a worker dying at 2am, I don&apos;t consider it done.</div>
           </div>
           <div id="contact" className="card contact">
             <div className="eyebrow eyebrow-dark">Contact</div>
-            <h2 className="serif contact-title">Let&apos;s talk shop.</h2>
+            <h2 className="serif contact-title">Get in touch</h2>
             <div className="contact-rows">
               <a href={`mailto:${site.email}`} className="contact-row">
                 <span className="mono contact-k">EMAIL</span>
@@ -269,10 +212,12 @@ export default function Home() {
                 </a>
               )}
             </div>
-            <div className="mono contact-foot">
-              <span className="dot" style={{ width: 7, height: 7, background: "#5FBF86" }} />
-              replies within a few days{site.timeZone && ` · ${site.timeZone}`}
-            </div>
+            {site.timeZone && (
+              <div className="mono contact-foot">
+                <span className="dot" style={{ width: 7, height: 7, background: "#5FBF86" }} />
+                {site.timeZone}
+              </div>
+            )}
           </div>
         </section>
       </main>
