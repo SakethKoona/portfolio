@@ -24,8 +24,8 @@ npm run lint
 | Résumé, full CV | `public/resume.pdf`, `public/cv.pdf` |
 
 Pages: `/` (hero, in brief, selected work, current roles, contact), `/work` (every project, grouped by area),
-`/experience` (software engineering and research), `/about` (bio, facts, skills), `/work/elixirbenchmarker`
-(case study). The home page's standout projects are the `standout` list in `src/app/page.tsx`. Project sections: `featured` (needs `headline` and a `vignette`),
+`/experience` (software engineering and research), `/about` (bio, facts, skills), `/work/elixirbenchmarker` and `/work/build`
+(case studies). The home page's standout projects are the `standout` list in `src/app/page.tsx`. Project sections: `featured` (needs `headline` and a `vignette`),
 `backend` and `rl` (rows with a diagram), `earlier` (text rows), `also` (one line). `next build` fails on bad content: duplicate slugs or orders, missing
 fields, unknown vignettes, non-https links, repo links that point at the GitHub profile, or private projects that
 carry a link.

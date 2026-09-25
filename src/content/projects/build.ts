@@ -12,6 +12,7 @@ const project: Project = {
   meta: "First place, HUD x YC RSI RL Hackathon",
   tags: ["Python", "HUD", "React", "FastAPI"],
   links: {
+    caseStudy: "/work/build",
     live: "https://build.transpiralabs.com",
     repo: "https://github.com/Transpira-Labs/build",
   },
